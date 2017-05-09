@@ -28,7 +28,9 @@ if [ -n "$IO_THREADS" ]; then
     IO_THREADS_OPT="--io $IO_THREADS"
 fi
 
-CPU_THREADS_OPT="--cpu $ACTUAL_CPU_THREADS"
+if [ "$ACTUAL_CPU_THREADS" -gt 0 ]; then
+    CPU_THREADS_OPT="--cpu $ACTUAL_CPU_THREADS"
+fi
 
 stress $HDD_OPT \
        $HDD_BYTES_OPT \
