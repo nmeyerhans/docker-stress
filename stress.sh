@@ -1,6 +1,16 @@
 #!/bin/bash
+# Run stress. By default, a single CPU worker runs forever. Parameters
+# can be overridden via the following environment variables, which
+# should be self explanatory based on the stress docs:
+# TIMEOUT
+# HDD_THREADS
+# HDD_BYTES
+# IO_THREADS
+# CPU_THREADS
 
 start_time=$(date +%s)
+
+ACTUAL_CPU_THREADS=${CPU_THREADS:-1}
 
 if [ -n "$TIMEOUT" ]; then
     TIMEOUT_OPT="--timeout $TIMEOUT"
@@ -18,9 +28,7 @@ if [ -n "$IO_THREADS" ]; then
     IO_THREADS_OPT="--io $IO_THREADS"
 fi
 
-if [ -n "$CPU_THREADS" ]; then
-    CPU_THREADS_OPT="--cpu $CPU_THREADS"
-fi
+CPU_THREADS_OPT="--cpu $ACTUAL_CPU_THREADS"
 
 stress $HDD_OPT \
        $HDD_BYTES_OPT \
