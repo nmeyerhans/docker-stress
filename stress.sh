@@ -32,11 +32,28 @@ if [ "$ACTUAL_CPU_THREADS" -gt 0 ]; then
     CPU_THREADS_OPT="--cpu $ACTUAL_CPU_THREADS"
 fi
 
+cat <<EOF
+Running with:
+CPU spinners: $ACTUAL_CPU_THREADS
+HDD threads : ${HDD_THREADS:-0}
+HDD bytes   : ${HDD_BYTES:-0}
+IO threads  : ${IO_THREADS:-0}
+EOF
+
 stress $HDD_OPT \
        $HDD_BYTES_OPT \
        $IO_THREADS_OPT \
        $CPU_THREADS_OPT \
-       $TIMEOUT_OPT
+       $TIMEOUT_OPT &
+
+stress_pid=$!
+cleanup() {
+    echo Stopping pid $stress_pid
+    kill $stress_pid
+}
+
+trap cleanup TERM INT QUIT
+wait
 
 end_time=$(date +%s)
 echo "Finished after $(($end_time-$start_time))s"
