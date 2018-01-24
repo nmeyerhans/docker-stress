@@ -24,6 +24,11 @@
 # HDD_BYTES
 # IO_THREADS
 # CPU_THREADS
+# VM_THREADS
+# VM_BYTES
+# VM_STRIDE
+# VM_HANG
+# VM_KEEP
 
 start_time=$(date +%s)
 
@@ -49,18 +54,40 @@ if [ "$ACTUAL_CPU_THREADS" -gt 0 ]; then
     CPU_THREADS_OPT="--cpu $ACTUAL_CPU_THREADS"
 fi
 
+if [ -n "$VM_THREADS" ]; then
+    VM_THREADS_OPT="--vm $VM_THREADS"
+
+    if [ -n "$VM_BYTES" ]; then
+	VM_BYTES_OPT="--vm-bytes $VM_BYTES"
+    fi
+    if [ -n "$VM_STRIDE" ]; then
+	VM_STRIDE_OPT="--vm-stride $VM_STRIDE"
+    fi
+    if [ -n "$VM_HANG" ]; then
+	VM_HANG_OPT="--vm-hang $VM_HANG"
+    fi
+    if [ -n "$VM_KEEP" ]; then
+	VM_KEEP_OPT="--vm-keep"
+    fi
+    VM_OPTS="$VM_THREADS_OPT $VM_BYTES_OPT $VM_STRIDE_OPT"
+    VM_OPTS="$VM_OPTS $VM_HANG_OPT $VM_KEEP_OPT"
+fi
+
 cat <<EOF
 Running with:
 CPU spinners: $ACTUAL_CPU_THREADS
 HDD threads : ${HDD_THREADS:-0}
 HDD bytes   : ${HDD_BYTES:-0}
 IO threads  : ${IO_THREADS:-0}
+VM threads  : ${VM_THREADS:-0}
 EOF
 
-stress $HDD_OPT \
+stress --verbose \
+       $HDD_OPT \
        $HDD_BYTES_OPT \
        $IO_THREADS_OPT \
        $CPU_THREADS_OPT \
+       $VM_OPTS \
        $TIMEOUT_OPT &
 
 stress_pid=$!
