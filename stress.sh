@@ -88,7 +88,8 @@ stress --verbose \
        $IO_THREADS_OPT \
        $CPU_THREADS_OPT \
        $VM_OPTS \
-       $TIMEOUT_OPT &
+       $TIMEOUT_OPT \
+       $@ &
 
 stress_pid=$!
 cleanup() {
