@@ -18,7 +18,8 @@
 
 # Run stress. By default, a single CPU worker runs forever. Parameters
 # can be overridden via the following environment variables, which
-# should be self explanatory based on the stress docs:
+# should be self explanatory based on the stress docs, or by passing
+# stress command line options directly on the 'docker run' invocation.
 # TIMEOUT
 # HDD_THREADS
 # HDD_BYTES
