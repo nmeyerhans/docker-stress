@@ -17,7 +17,9 @@
 
 FROM debian:stretch-slim
 
-RUN apt-get update && apt-get -y install stress && apt-get clean
+RUN apt-get update && \
+  DEBIAN_FRONTEND=noninteractive apt-get -y install stress && \
+  apt-get clean
 
 COPY stress.sh /entrypoint
 
