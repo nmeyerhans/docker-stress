@@ -23,4 +23,5 @@ RUN apt-get update && \
 
 COPY stress.sh /entrypoint
 
+WORKDIR /mnt
 ENTRYPOINT ["/entrypoint"]
