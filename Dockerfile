@@ -15,7 +15,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
 # USA
 
-FROM debian:bullseye-slim
+FROM public.ecr.aws/debian/debian:bullseye-slim
 
 RUN apt-get update && \
   DEBIAN_FRONTEND=noninteractive apt-get -y install stress && \
