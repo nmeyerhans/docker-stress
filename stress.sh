@@ -90,7 +90,7 @@ stress --verbose \
        $CPU_THREADS_OPT \
        $VM_OPTS \
        $TIMEOUT_OPT \
-       $@ &
+       "$@" &
 
 stress_pid=$!
 cleanup() {
